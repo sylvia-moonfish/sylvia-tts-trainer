@@ -1,5 +1,3 @@
-import { getUser, saveUser } from "@/lib/db";
-
 import { cookies } from "next/headers";
 import { NextResponse } from "next/server";
 
@@ -33,26 +31,27 @@ export async function GET(request: Request) {
     const userData = await userResponse.json();
 
     if (userData.id) {
-      const user = (await getUser(userData.id)) ?? {
-        id: "",
-        username: "",
-        recordings: {},
-        useCustom: false,
-        customPromptId: "-1",
-        submittedForTraining: false,
-      };
+      const formData = new FormData();
+      formData.append("userId", userData.id);
+      formData.append("username", userData.username);
 
-      user.id = userData.id;
-      user.username = userData.username;
-
-      await saveUser(user);
-
-      (await cookies()).set("discord_user", JSON.stringify(user), {
-        httpOnly: true,
-        maxAge: 60 * 60 * 24 * 7,
-        sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
+      const res = await fetch(`${process.env.FILE_SERVER_URI}/api/user`, {
+        body: formData,
+        method: "POST",
       });
+
+      if (res.ok) {
+        const user = await res.json();
+
+        if (!user.error && user.id) {
+          (await cookies()).set("discord_user", JSON.stringify(user), {
+            httpOnly: true,
+            maxAge: 60 * 60 * 24 * 7,
+            sameSite: "lax",
+            secure: process.env.NODE_ENV === "production",
+          });
+        }
+      }
     }
   } catch (error) {
     console.error("Auth callback discord error: ", error);
