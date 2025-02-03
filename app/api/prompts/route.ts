@@ -6,6 +6,8 @@ export async function GET() {
 
     return NextResponse.json(await res.json(), { status: res.status });
   } catch (error) {
+    console.error("Error fetching prompts: ", error);
+
     return NextResponse.json(
       { error: "Failed to fetch prompts." },
       { status: 500 }

@@ -15,6 +15,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
 
     const formData = await request.formData();
+
     formData.append("userId", user.id);
 
     const res = await fetch(`${process.env.FILE_SERVER_URI}/api/recordings`, {

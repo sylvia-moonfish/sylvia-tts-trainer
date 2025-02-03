@@ -1,9 +1,5 @@
 "use client";
 
-import { ThemeSwitch } from "@/components/theme-switch";
-import { Logo } from "@/components/icons";
-import { useAuth } from "@/hooks/useAuth";
-
 import { Button } from "@heroui/button";
 import {
   Navbar as HeroUINavbar,
@@ -12,11 +8,13 @@ import {
   NavbarItem,
 } from "@heroui/navbar";
 import NextLink from "next/link";
-import { useRouter } from "next/navigation";
+
+import { ThemeSwitch } from "@/components/theme-switch";
+import { Logo } from "@/components/icons";
+import { useAuth } from "@/hooks/useAuth";
 
 export const Navbar = () => {
   const { user } = useAuth();
-  const router = useRouter();
 
   return (
     <HeroUINavbar maxWidth="xl" position="sticky">
@@ -36,13 +34,13 @@ export const Navbar = () => {
           {user && (
             <Button
               color="danger"
+              radius="sm"
+              size="md"
+              variant="shadow"
               onPress={async () => {
                 await fetch("/api/auth/logout");
                 location.reload();
               }}
-              radius="sm"
-              size="md"
-              variant="shadow"
             >
               로그아웃
             </Button>

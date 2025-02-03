@@ -1,10 +1,10 @@
+import clsx from "clsx";
+import { Metadata, Viewport } from "next";
+
 import { Providers } from "@/app/providers";
 import { fontSans } from "@/config/fonts";
 import { Navbar } from "@/components/navbar";
 import "@/styles/globals.css";
-
-import clsx from "clsx";
-import { Metadata, Viewport } from "next";
 
 export const metadata: Metadata = {
   title: {

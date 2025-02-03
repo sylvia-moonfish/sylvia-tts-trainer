@@ -1,17 +1,16 @@
 "use client";
 
-import { MicrophoneIcon, StopIcon, TrashIcon } from "@/components/icons";
-import { title } from "@/components/primitives";
-import { User } from "@/types";
-
 import { Alert } from "@heroui/alert";
 import { Button } from "@heroui/button";
 import { Card, CardBody } from "@heroui/card";
 import { Divider } from "@heroui/divider";
 import { Progress } from "@heroui/progress";
 import { Tab, Tabs } from "@heroui/tabs";
-
 import { useEffect, useState } from "react";
+
+import { MicrophoneIcon, StopIcon, TrashIcon } from "@/components/icons";
+import { title } from "@/components/primitives";
+import { User } from "@/types";
 
 interface RecordingSectionProps {
   user: User;
@@ -64,6 +63,7 @@ export default function RecordingSection({
 
     try {
       const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
       mediaRecorder = new MediaRecorder(stream);
       audioChunks = [];
 
@@ -78,6 +78,7 @@ export default function RecordingSection({
           const audioBlob = new Blob(audioChunks, { type: "audio/wav" });
 
           const formData = new FormData();
+
           formData.append("audio", audioBlob);
           formData.append("promptId", activePromptId.toString());
 
@@ -91,7 +92,7 @@ export default function RecordingSection({
 
             if (!data.error && data.id) setUser(data);
           }
-        } catch (error) {
+        } catch {
           setErrorMessage("녹음된 샘플 업로드 중 오류가 발생하였습니다.");
         } finally {
           setIsRecording(false);
@@ -100,7 +101,7 @@ export default function RecordingSection({
       });
 
       mediaRecorder.start();
-    } catch (error) {
+    } catch {
       setIsRecording(false);
       setErrorMessage(
         "녹음 시도 중 오류가 발생하였습니다. 마이크가 사용 가능한지 확인해주세요."
@@ -129,7 +130,7 @@ export default function RecordingSection({
 
         if (!data.error && data.id) setUser(data);
       }
-    } catch (error) {
+    } catch {
       setErrorMessage("샘플 삭제 중 오류가 발생하였습니다.");
     } finally {
       setIsUploading(false);
@@ -148,7 +149,7 @@ export default function RecordingSection({
 
         if (!data.error && data.id) setUser(data);
       }
-    } catch (error) {
+    } catch {
       setErrorMessage("훈련 신청 중 오류가 발생하였습니다.");
     } finally {
       setIsUploading(false);
@@ -179,8 +180,8 @@ export default function RecordingSection({
         variant="solid"
       >
         <Tab
-          className="flex flex-col items-center justify-center gap-8 w-full max-w-xl"
           key="recordPage"
+          className="flex flex-col items-center justify-center gap-8 w-full max-w-xl"
           title="샘플 녹음하기"
         >
           <p className={title()}>{activePromptId} 번째 샘플</p>
@@ -197,9 +198,11 @@ export default function RecordingSection({
               className="w-full"
               controls={true}
               src={`/recordings/${user.username}/${activePromptId}.wav`}
-            />
+            >
+              <track kind="captions" src="" />
+            </audio>
           ) : (
-            <div></div>
+            <></>
           )}
           <div className="flex flex-col items-center justify-center gap-4 w-full">
             {isRecording ? (
@@ -207,13 +210,13 @@ export default function RecordingSection({
                 color="danger"
                 fullWidth={true}
                 isLoading={isUploading}
-                onPress={() => {
-                  stopRecording();
-                }}
                 radius="sm"
                 size="lg"
                 startContent={isUploading ? null : <StopIcon />}
                 variant="shadow"
+                onPress={() => {
+                  stopRecording();
+                }}
               >
                 녹음 끝내기
               </Button>
@@ -222,13 +225,13 @@ export default function RecordingSection({
                 color="success"
                 fullWidth={true}
                 isLoading={isUploading}
-                onPress={() => {
-                  startRecording();
-                }}
                 radius="sm"
                 size="lg"
                 startContent={isUploading ? null : <MicrophoneIcon />}
                 variant="shadow"
+                onPress={() => {
+                  startRecording();
+                }}
               >
                 {user.recordings[activePromptId]
                   ? "재녹음 시작"
@@ -244,13 +247,13 @@ export default function RecordingSection({
               fullWidth={true}
               isDisabled={isRecording || !user.recordings[activePromptId]}
               isLoading={isUploading}
-              onPress={() => {
-                deleteRecording();
-              }}
               radius="sm"
               size="lg"
               startContent={isUploading ? null : <TrashIcon />}
               variant="shadow"
+              onPress={() => {
+                deleteRecording();
+              }}
             >
               샘플 삭제
             </Button>
@@ -263,12 +266,12 @@ export default function RecordingSection({
               isDisabled={isRecording || activePromptId === 1}
               isIconOnly={true}
               isLoading={isUploading}
-              onPress={() => {
-                if (activePromptId > 1) setActivePromptId(activePromptId - 1);
-              }}
               radius="sm"
               size="lg"
               variant="shadow"
+              onPress={() => {
+                if (activePromptId > 1) setActivePromptId(activePromptId - 1);
+              }}
             >
               {"<"}
             </Button>
@@ -279,20 +282,20 @@ export default function RecordingSection({
               isDisabled={isRecording || activePromptId === 500}
               isIconOnly={true}
               isLoading={isUploading}
-              onPress={() => {
-                if (activePromptId < 500) setActivePromptId(activePromptId + 1);
-              }}
               radius="sm"
               size="lg"
               variant="shadow"
+              onPress={() => {
+                if (activePromptId < 500) setActivePromptId(activePromptId + 1);
+              }}
             >
               {">"}
             </Button>
           </div>
         </Tab>
         <Tab
-          className="flex flex-col items-center justify-center gap-8 w-full max-w-xl"
           key="submitPage"
+          className="flex flex-col items-center justify-center gap-8 w-full max-w-xl"
           title="훈련 신청하기"
         >
           <p className="text-sm">
@@ -315,12 +318,12 @@ export default function RecordingSection({
               fullWidth={true}
               isDisabled={Object.keys(user.recordings).length < 100}
               isLoading={isUploading}
-              onPress={() => {
-                submitForTraining();
-              }}
               radius="sm"
               size="lg"
               variant="shadow"
+              onPress={() => {
+                submitForTraining();
+              }}
             >
               훈련 신청하기
             </Button>

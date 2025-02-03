@@ -32,6 +32,7 @@ export async function GET(request: Request) {
 
     if (userData.id) {
       const formData = new FormData();
+
       formData.append("userId", userData.id);
       formData.append("username", userData.username);
 

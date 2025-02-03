@@ -1,12 +1,12 @@
 "use client";
 
-import { title } from "@/components/primitives";
-import RecordingSection from "@/components/recordingSection";
-import { useAuth } from "@/hooks/useAuth";
-
 import { Button } from "@heroui/button";
 import { Spinner } from "@heroui/spinner";
 import { useRouter } from "next/navigation";
+
+import { title } from "@/components/primitives";
+import RecordingSection from "@/components/recordingSection";
+import { useAuth } from "@/hooks/useAuth";
 
 export default function Home() {
   const { loading, user } = useAuth();
@@ -26,14 +26,14 @@ export default function Home() {
       ) : !user ? (
         <Button
           color="primary"
+          radius="sm"
+          size="lg"
+          variant="shadow"
           onPress={() =>
             router.push(
               `https://discord.com/api/oauth2/authorize?client_id=${process.env.NEXT_PUBLIC_DISCORD_CLIENT_ID}&redirect_uri=${encodeURIComponent(process.env.NEXT_PUBLIC_REDIRECT_URI!)}&response_type=code&scope=identify`
             )
           }
-          radius="sm"
-          size="lg"
-          variant="shadow"
         >
           디스코드로 로그인
         </Button>
