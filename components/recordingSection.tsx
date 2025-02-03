@@ -197,7 +197,7 @@ export default function RecordingSection({
             <audio
               className="w-full"
               controls={true}
-              src={`/recordings/${user.username}/${activePromptId}.wav`}
+              src={`/api/public/recordings/${user.username}/${activePromptId}.wav`}
             >
               <track kind="captions" src="" />
             </audio>
