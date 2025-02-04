@@ -17,7 +17,7 @@ export default function Instruction() {
         <Card className="p-4">
           <CardBody className="flex flex-col gap-4">
             <p>
-              디스코드 상에서 /register 명령어를 통해 자동 훈련에 동의하실 수
+              디스코드 상에서 /등록 명령어를 통해 자동 훈련에 동의하실 수
               있습니다.
             </p>
             <p>

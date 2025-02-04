@@ -29,7 +29,7 @@ export const Navbar = () => {
           </NextLink>
         </NavbarBrand>
       </NavbarContent>
-      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+      <NavbarContent className="flex gap-4" justify="center">
         <NavbarItem isActive={pathname === "/"}>
           <Link color={pathname === "/" ? "primary" : "foreground"} href="/">
             훈련하기
@@ -44,11 +44,8 @@ export const Navbar = () => {
           </Link>
         </NavbarItem>
       </NavbarContent>
-      <NavbarContent
-        className="hidden sm:flex basis-1/5 sm:basis-full"
-        justify="end"
-      >
-        <NavbarItem className="hidden sm:flex gap-6">
+      <NavbarContent className="flex" justify="end">
+        <NavbarItem className="flex gap-6">
           {user && (
             <Button
               color="danger"

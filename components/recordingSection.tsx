@@ -228,6 +228,7 @@ export default function RecordingSection({
               <Button
                 color="success"
                 fullWidth={true}
+                isDisabled={!!user.recordings[activePromptId]}
                 isLoading={isUploading}
                 radius="sm"
                 size="lg"
@@ -238,7 +239,7 @@ export default function RecordingSection({
                 }}
               >
                 {user.recordings[activePromptId]
-                  ? "재녹음 시작"
+                  ? "삭제 후 재녹음해주세요."
                   : "새 녹음 시작"}
               </Button>
             )}
