@@ -6,7 +6,8 @@ export async function GET(
 ) {
   try {
     return await fetch(
-      `${process.env.FILE_SERVER_URI}/${(await params).path.join("/")}`
+      `${process.env.FILE_SERVER_URI}/${(await params).path.join("/")}`,
+      { cache: "no-store" }
     );
   } catch (error) {
     console.error("Error relaying static file: ", error);
