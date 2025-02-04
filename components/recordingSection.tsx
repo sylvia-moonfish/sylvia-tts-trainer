@@ -62,7 +62,13 @@ export default function RecordingSection({
     setIsRecording(true);
 
     try {
-      const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+      const stream = await navigator.mediaDevices.getUserMedia({
+        audio: {
+          autoGainControl: false,
+          echoCancellation: false,
+          noiseSuppression: false,
+        },
+      });
 
       mediaRecorder = new MediaRecorder(stream);
       audioChunks = [];
@@ -199,7 +205,7 @@ export default function RecordingSection({
               controls={true}
               src={`/api/public/recordings/${user.username}/${activePromptId}.wav`}
             >
-              <track kind="captions" src="" />
+              <track kind="captions" src={undefined} />
             </audio>
           ) : (
             <></>

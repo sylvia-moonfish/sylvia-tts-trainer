@@ -7,7 +7,9 @@ import {
   NavbarBrand,
   NavbarItem,
 } from "@heroui/navbar";
+import { Link } from "@heroui/link";
 import NextLink from "next/link";
+import { usePathname } from "next/navigation";
 
 import { ThemeSwitch } from "@/components/theme-switch";
 import { Logo } from "@/components/icons";
@@ -15,6 +17,7 @@ import { useAuth } from "@/hooks/useAuth";
 
 export const Navbar = () => {
   const { user } = useAuth();
+  const pathname = usePathname();
 
   return (
     <HeroUINavbar maxWidth="xl" position="sticky">
@@ -25,6 +28,21 @@ export const Navbar = () => {
             <p className="font-bold text-inherit">실무새 트레이너</p>
           </NextLink>
         </NavbarBrand>
+      </NavbarContent>
+      <NavbarContent className="hidden sm:flex gap-4" justify="center">
+        <NavbarItem isActive={pathname === "/"}>
+          <Link color={pathname === "/" ? "primary" : "foreground"} href="/">
+            훈련하기
+          </Link>
+        </NavbarItem>
+        <NavbarItem isActive={pathname === "/instruction"}>
+          <Link
+            color={pathname === "/instruction" ? "primary" : "foreground"}
+            href="/instruction"
+          >
+            설명서 보기
+          </Link>
+        </NavbarItem>
       </NavbarContent>
       <NavbarContent
         className="hidden sm:flex basis-1/5 sm:basis-full"
