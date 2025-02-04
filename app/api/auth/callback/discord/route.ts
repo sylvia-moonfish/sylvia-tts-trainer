@@ -45,12 +45,16 @@ export async function GET(request: Request) {
         const user = await res.json();
 
         if (!user.error && user.id) {
-          (await cookies()).set("discord_user", JSON.stringify(user), {
-            httpOnly: true,
-            maxAge: 60 * 60 * 24 * 7,
-            sameSite: "lax",
-            secure: process.env.NODE_ENV === "production",
-          });
+          (await cookies()).set(
+            "discord_user",
+            JSON.stringify({ id: user.id }),
+            {
+              httpOnly: true,
+              maxAge: 60 * 60 * 24 * 7,
+              sameSite: "lax",
+              secure: process.env.NODE_ENV === "production",
+            }
+          );
         }
       }
     }

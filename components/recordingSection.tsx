@@ -168,9 +168,7 @@ export default function RecordingSection({
         <Alert color="danger" title={errorMessage} variant="solid" />
       )}
       <Progress
-        color={
-          Object.keys(user.recordings).length >= 100 ? "success" : "danger"
-        }
+        color={Object.keys(user.recordings).length >= 50 ? "success" : "danger"}
         label={`녹음된 샘플 수 ${Object.keys(user.recordings).length} / 500`}
         maxValue={500}
         minValue={0}
@@ -305,9 +303,9 @@ export default function RecordingSection({
           title="훈련 신청하기"
         >
           <p className="text-sm">
-            녹음된 샘플이 100개 이상인 경우 훈련 신청을 할 수 있습니다.
+            녹음된 샘플이 50개 이상인 경우 훈련 신청을 할 수 있습니다.
           </p>
-          {user.submittedForTraining ? (
+          {user.trainer.submittedForTraining ? (
             <Button
               color="default"
               fullWidth={true}
@@ -322,7 +320,7 @@ export default function RecordingSection({
             <Button
               color="primary"
               fullWidth={true}
-              isDisabled={Object.keys(user.recordings).length < 100}
+              isDisabled={Object.keys(user.recordings).length < 50}
               isLoading={isUploading}
               radius="sm"
               size="lg"
